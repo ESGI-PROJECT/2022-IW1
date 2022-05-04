@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,25 +11,33 @@
   :root {
     --app-bg-color: royalblue;
   }
-  *,*::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     margin: 0;
     padding: 0;
   }
-  html, body {
+
+  html,
+  body {
     height: 100%;
     width: 100%;
     background-color: #fefefe;
     font-family: sans-serif;
   }
+
   h1 {
     margin: 0;
     padding: 0;
   }
-  #app > header a {
+
+  #app>header a {
     text-decoration: none;
     color: inherit;
   }
-  #app > header {
+
+  #app>header {
     text-align: center;
     position: sticky;
     top: 0;
@@ -40,7 +49,12 @@
     color: #ffffff;
     z-index: 10;
   }
-  #app > main {
+
+  #app>header a svg {
+    width: 1.5rem;
+  }
+
+  #app>main {
     padding: 0 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -48,23 +62,29 @@
 
   /* App shell */
   /* Skeleton */
-  [hidden] { display: none !important; }
+  [hidden] {
+    display: none !important;
+  }
+
   /* Skeleton */
   .skeleton {
     position: relative;
     overflow: hidden;
   }
+
   .skeleton .hero {
     min-height: 30vh;
     background: var(--app-grey-color, #cccccc);
     margin-bottom: 1rem;
     border-radius: 5px;
   }
+
   .skeleton .title {
     min-height: 20px;
     background: var(--app-grey-color, #cccccc);
     margin-bottom: 1rem;
   }
+
   .skeleton .text {
     min-height: 20px;
     max-width: 60%;
@@ -83,6 +103,7 @@
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .2), transparent);
     animation: loading 1.5s infinite;
   }
+
   @keyframes loading {
     100% {
       transform: translateX(100%);
@@ -93,24 +114,35 @@
   [page] {
     display: none;
   }
+
   [page][active] {
     display: block;
   }
-
 </style>
 <link href="./src/components/product.css" rel="preload" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="./src/components/product.css"></noscript>
+<noscript>
+  <link rel="stylesheet" href="./src/components/product.css">
+</noscript>
 <link href="./src/assets/css/product.css" rel="preload" as="style" onload="this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="./src/assets/css/product.css"></noscript>
+<noscript>
+  <link rel="stylesheet" href="./src/assets/css/product.css">
+</noscript>
+
 <body>
   <section id="app">
     <header>
       <h1><a href="/">Nozama shop 🛍</a></h1>
+      <a href="/cart"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg></a>
     </header>
     <main>
 
       <app-home page></app-home>
       <app-product page></app-product>
+      <app-cart page></app-cart>
 
       <div class="skeleton">
         <div class="hero"></div>
@@ -121,4 +153,5 @@
   </section>
   <script src="./src/main.js" type="module"></script>
 </body>
+
 </html>
