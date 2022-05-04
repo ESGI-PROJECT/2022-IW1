@@ -1,6 +1,9 @@
 import { html } from 'lit';
 import { Base } from '../Base';
 
+import {addItemToCart} from "../api/cart";
+import {getCart, setCart} from "../idbHelpers";
+
 export class ProductCard extends Base {
   constructor() {
     super();
@@ -24,6 +27,19 @@ export class ProductCard extends Base {
     });
   }
 
+  async addToCart(event) {
+    event.preventDefault();
+    if (!navigator.onLine) {
+      const storedCart = getCart('cart');
+      storedCart.products.products.push(this.product);
+      await setCart(storedCart);
+      alert('Product added to cart');
+    } else {
+      await addItemToCart(this.product);
+      alert('Product added to cart');
+    }
+  }
+
   render() {
     return html`
       <a href="/product/${this.product.id}" class="card">
@@ -36,6 +52,7 @@ export class ProductCard extends Base {
         <main>
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
+          <button @click="${this.addToCart}">Add to cart</button>
         </main>
       </a>
     `;

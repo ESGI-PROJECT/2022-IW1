@@ -5,12 +5,17 @@ const STORE_NAME = "Products";
 export function initDB() {
   return openDB("Nozama", 1, {
     upgrade(db) {
-      const store = db.createObjectStore(STORE_NAME, {
+      const productsStore = db.createObjectStore(STORE_NAME, {
+        keyPath: "id"
+      });
+      const cartStore = db.createObjectStore("Cart", {
         keyPath: "id"
       });
 
-      store.createIndex("id", "id");
-      store.createIndex("category", "category");
+      productsStore.createIndex("id", "id");
+      productsStore.createIndex("category", "category");
+
+      cartStore.createIndex("id", "id");
     }
   });
 }
@@ -42,6 +47,19 @@ export async function getRessources() {
 export async function getRessource(id) {
   const db = await initDB();
   return db.getFromIndex(STORE_NAME, "id", id);
+}
+
+export async function setCart(data = {}) {
+  const db = await initDB();
+  const tx = db.transaction("Cart", "readwrite");
+  tx.store.put(data);
+  await tx.done;
+  return db.getFromIndex('Cart', "id", data.id);
+}
+
+export async function getCart(id) {
+  const db = await initDB();
+  return db.getFromIndex("Cart", "id", id);
 }
 
 export async function unsetRessource(id) {

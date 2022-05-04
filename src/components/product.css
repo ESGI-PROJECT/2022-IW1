@@ -45,7 +45,58 @@
 .card main p {
   padding-top: 0.25rem;
   font-size: 0.75rem;
+  margin-bottom: 1rem;
   color: #6D6D6D;
+}
+
+.card main button, .product main button {
+  background: #5406c1;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.cart__product {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas: 'img info' 'img control';
+  margin-bottom: 1rem;
+  border: 1px solid lightgray;
+}
+
+.cart__product img {
+  grid-area: img;
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.cart__product__info {
+  grid-area: info;
+}
+
+.cart__product__control {
+  grid-area: control;
+}
+
+.cart__product__control__remove {
+  background: #ff0000;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.25rem .5rem;
+  font-size: 0.5rem;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 /**
