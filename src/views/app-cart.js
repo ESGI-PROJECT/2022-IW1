@@ -1,7 +1,10 @@
 import { Base } from "../Base";
 import { html } from "lit";
 import { deleteCartProduct, updateCartProductQuantity } from "../idbHelpers";
-
+import {
+  updateCartProductQuantity as updateAPICartProductQuantity,
+  removeItemFromCart,
+} from "../api/cart";
 export class AppCart extends Base {
   constructor() {
     super();
@@ -14,24 +17,26 @@ export class AppCart extends Base {
   }
 
   async updateQuantity(id, quantity) {
-    await updateCartProductQuantity(id, quantity);
-    // if (product !== undefined) {
-    //   product.quantity = quantity;
-    //   await unsetCartProduct(product.id);
-    //   await setCartProduct(product).catch((err) => console.error(err));
-    //   console.log("Quantité modifiée: " + product.quantity);
-    // } else {
-    //   console.log("Produit introuvable");
-    // }
+    if (navigator.onLine) {
+      // g pa trouvé comment reprendre la const NETWORK_STATE
+      await updateAPICartProductQuantity(id, quantity);
+    } else {
+      await updateCartProductQuantity(id, quantity);
+    }
   }
-  async deleteItem(id) {
-    await deleteCartProduct(id);
+  async deleteItem(product) {
+    if (navigator.onLine) {
+      await removeItemFromCart(product);
+    } else {
+      await deleteCartProduct(product);
+    }
     // Remove HTML element
-    const product = document.getElementById(`product-${id}`);
-    product.remove();
+    const productElem = document.getElementById(`product-${product.id}`);
+    productElem.remove();
   }
 
   render() {
+    console.log(this.cart);
     return html`
       <div class="cart">
         <h1>Mon Panier</h1>
@@ -61,7 +66,7 @@ export class AppCart extends Base {
                             e.target.valueAsNumber
                           )}
                       />
-                      <button @click="${() => this.deleteItem(product.id)}">
+                      <button @click="${() => this.deleteItem(product)}">
                         Supprimer
                       </button>
                     </div>

@@ -15,17 +15,3 @@ export function getProduct(productid) {
     .then(({ data }) => data)
     .catch(console.error);
 }
-
-export function getCartProducts() {
-  return request
-    .get("/cart")
-    .then(({ data }) => data)
-    .catch(console.error);
-}
-
-export function getCartProduct(id) {
-  return request
-    .get(`/cart/${id}`)
-    .then(({ data }) => data)
-    .catch(console.error);
-}

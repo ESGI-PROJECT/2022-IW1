@@ -1,6 +1,7 @@
 import { html } from "lit";
 import { Base } from "../Base";
-
+import { addItemToCart } from "../api/cart";
+import { setCartProduct } from "../idbHelpers";
 export class AppProduct extends Base {
   constructor() {
     super();
@@ -21,8 +22,16 @@ export class AppProduct extends Base {
       this.loaded = true;
     });
   }
-  addToCart() {
-    console.log("add to cart");
+  async addToCart() {
+    const prod = this.product;
+    prod.quantity = 1;
+
+    if (navigator.onLine) {
+      await addItemToCart(prod);
+    } else {
+      await setCartProduct(prod);
+    }
+    alert("Product added to cart");
   }
 
   render() {

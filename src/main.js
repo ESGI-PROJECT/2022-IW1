@@ -2,6 +2,10 @@ import page from "page";
 import checkConnectivity from "network-latency";
 
 import { getProducts, getProduct } from "./api/products";
+import {
+  getCart as getAPICart,
+  getCartProducts as getAPICartProducts,
+} from "./api/cart";
 import "./views/app-home";
 import {
   getRessource,
@@ -9,6 +13,7 @@ import {
   getCart,
   setRessource,
   setRessources,
+  setCart,
 } from "./idbHelpers";
 
 (async (root) => {
@@ -80,13 +85,20 @@ import {
   page("/cart", async () => {
     await import("./views/app-cart");
     let cart = {};
-    // if (NETWORK_STATE) {
-    //   const cartProducts = await getCartProducts();
-    //   cart = await setCart(cartProducts);
-    // } else {
-    //   cart = await getCartProducts();
-    // }
-    cart = await getCart();
+    if (NETWORK_STATE) {
+      const apiCart = await getAPICart();
+      const apiCartProducts = await getAPICartProducts(apiCart.id);
+      cart = {
+        id: apiCart.id,
+        products: await getAPICartProducts(apiCart.id),
+        total: apiCartProducts.reduce((acc, item) => {
+          return acc + item.price * item.quantity;
+        }, 0),
+      };
+      await setCart(cart);
+    } else {
+      cart = await getCart();
+    }
 
     AppCart.cart = cart;
     AppCart.active = true;

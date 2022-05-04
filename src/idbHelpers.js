@@ -64,6 +64,7 @@ export async function getCart() {
 export async function setCart(data = {}) {
   const db = await initDB();
   const tx = db.transaction(CART_NAME, "readwrite");
+  tx.store.clear();
   tx.store.put(data);
   await tx.done;
   return db.getAllFromIndex(CART_NAME, "id");
@@ -105,10 +106,10 @@ export async function updateCartProductQuantity(id, quantity) {
   await setCart(cart);
 }
 
-export async function deleteCartProduct(id) {
+export async function deleteCartProduct(product) {
   const db = await initDB();
   const cart = await getCart();
-  const item = cart.products.find((item) => item.id === id);
+  const item = cart.products.find((item) => item.id === product.id);
   if (item) {
     cart.products.splice(cart.products.indexOf(item), 1);
   }
