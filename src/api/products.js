@@ -14,3 +14,9 @@ export function getProduct(productId) {
     .catch(console.error);
 }
 
+export function getCart() {
+  return request.get("/cart")
+      .then(({ data }) => data)
+      .catch(console.error);
+}
+

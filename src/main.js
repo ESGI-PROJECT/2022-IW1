@@ -1,7 +1,7 @@
 import page from "page";
 import checkConnectivity from "network-latency";
 import { getRessource, getRessources, setRessource, setRessources } from './idbHelper';
-import { getProducts, getProduct } from "./api/products"
+import { getProducts, getProduct, getCart } from "./api/products"
 
 
 (async (root) => {
@@ -70,6 +70,10 @@ import { getProducts, getProduct } from "./api/products"
     AppProduct.active = true;
 
     skeleton.setAttribute('hidden', true);
+  });
+
+  page('/cart', async () => {
+    await import("./views/app-cart");
   });
 
   page();

@@ -1,6 +1,7 @@
 import { openDB } from "idb";
 
 const PRODUCT_STORE_NAME = "Products";
+const CART_STORE_NAME = "Cart";
 
 export function initDB() {
   return  openDB("Nozama shop 🛍", 1, {
@@ -8,6 +9,12 @@ export function initDB() {
       const store = db.createObjectStore(PRODUCT_STORE_NAME, {
         keyPath: "id"
       });
+
+      const cart = db.createObjectStore(CART_STORE_NAME, {
+        keyPath: "id"
+      });
+
+      cart.createIndex("quantity", "id");
 
       store.createIndex("id", "id");
       store.createIndex("category", "category");
@@ -46,4 +53,19 @@ export async function getRessource(id) {
 export async function unsetRessource(id) {
   const db = await initDB();
   await db.delete(PRODUCT_STORE_NAME, id);
+}
+
+export async function setInCart(data = []) {
+  const db = await initDB();
+  await db.add(CART_STORE_NAME, data);
+}
+
+export async function deleteInCart(id) {
+  const db = await initDB();
+  await db.delete(CART_STORE_NAME, id);
+}
+
+export async function getCart() {
+  const db = await initDB();
+  return db.getAllFromIndex(CART_STORE_NAME, "id");
 }
