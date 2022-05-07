@@ -48,6 +48,18 @@
   color: #6D6D6D;
 }
 
+.button-cart{
+    background-color: #0275d8; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+}
+
 /**
   * Persist animation using : animation-fill-mode set to forward 
   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode
