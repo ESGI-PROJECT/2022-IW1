@@ -65,7 +65,7 @@ export async function deleteInCart(id) {
   await db.delete(CART_STORE_NAME, id);
 }
 
-export async function getCart() {
+export async function getInCart() {
   const db = await initDB();
-  return db.getAllFromIndex(CART_STORE_NAME, "id");
+  return db.getAllFromIndex(CART_STORE_NAME, "quantity");
 }
