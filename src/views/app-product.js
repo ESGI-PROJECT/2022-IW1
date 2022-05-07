@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
+import addProduct from "../events";
 
 export class AppProduct extends Base {
   constructor() {
@@ -40,6 +41,7 @@ export class AppProduct extends Base {
         <main>
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
+          <input type="button" id="${this.product.id}" value="Add to cart" @click="${addProduct}"/>
         </main>
       </section>
     `;

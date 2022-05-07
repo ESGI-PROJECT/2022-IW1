@@ -2,7 +2,7 @@ import page from "page";
 import checkConnectivity from "network-latency";
 
 
-import { getProducts, getProduct } from './api/products';
+import { getProducts, getProduct, getCart } from './api/products';
 import "./views/app-home";
 import { getRessource, getRessources, setRessource, setRessources } from "./idbHelpers";
 
@@ -29,12 +29,14 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
   const AppHome = main.querySelector('app-home');
   const AppProduct = main.querySelector('app-product');
+  const AppCart = main.querySelector('app-cart');
 
   page('*', (ctx, next) => {
     skeleton.removeAttribute('hidden');
 
     AppHome.active = false;
     AppProduct.active = false;
+    AppCart.active = false;
 
     next();
   });
@@ -70,6 +72,24 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
     skeleton.setAttribute('hidden', 'hiddle');
   });
+
+  page('/cart', async () => {
+    await import('./views/app-cart');
+
+    let storedCart = [];
+    if( NETWORK_STATE ) {
+      const cart = await getCart();
+      storedCart = await setRessources(cart, "Cart");
+    } else {
+      storedCart = await getRessources("Cart");
+    }
+    let items = storedCart.map( async (item) => await getProduct(item.id));
+
+    AppCart.items = items;
+    AppCart.active = true;
+
+    skeleton.setAttribute('hidden', 'hiddle');
+  })
 
   page();
 
