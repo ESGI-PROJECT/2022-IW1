@@ -15,7 +15,7 @@ export function getProduct(productid) {
 }
 
 export function getCart(){
-  return request.get('/cart')
+  return request.get(`/cart`)
     .then(({ data }) => data)
     .catch(console.error);
 }

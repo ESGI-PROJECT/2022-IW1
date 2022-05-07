@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { Base } from '../Base';
-import "../components/product-card";
+import "../components/cart-product";
 
 export class AppCart extends Base {
     constructor(){
@@ -13,7 +13,10 @@ export class AppCart extends Base {
         };
     }
     render(){
-        return this.items.map((product)=> "hi");
+        return this.items.map((item) => html`
+        <cart-product .product="${item.product}" .number="${item.number}">
+        </cart-product>
+        `);
     }
 }
 customElements.define('app-cart', AppCart);

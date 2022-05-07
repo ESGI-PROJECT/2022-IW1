@@ -14,7 +14,6 @@ export function initDB() {
       });
 
       cartStore.createIndex("id", "id");
-      cartStore.createIndex("number", "number");
 
       store.createIndex("id", "id");
       store.createIndex("category", "category");

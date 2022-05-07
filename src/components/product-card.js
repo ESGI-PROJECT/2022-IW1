@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { Base } from '../Base';
-import addProduct from '../events';
+import { addProduct } from '../events';
 
 export class ProductCard extends Base {
   constructor() {
