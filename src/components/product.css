@@ -47,7 +47,36 @@
   font-size: 0.75rem;
   color: #6D6D6D;
 }
-
+button{
+  background-color: royalblue;
+  padding: 10px;
+  border-radius:5px;
+  border:none;
+  color: white;
+  margin-left: 90%;
+  margin-bottom: 20px;
+}
+button:hover{
+  background-color:teal;
+}
+button:active{
+  transform: scale(1.05);
+}
+.btnModify{
+  background-color: royalblue;
+  padding: 10px;
+  border-radius:5px;
+  border:none;
+  color: white;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+.btnModify:hover{
+  background-color:teal;
+}
+.btnModify:active{
+  transform: scale(1.05);
+}
 /**
   * Persist animation using : animation-fill-mode set to forward 
   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode
