@@ -13,8 +13,8 @@ export async function addOne(e){
         }
     })
 
-    cart.total = parseFloat(cart.total) + parseFloat(product.price);
-    cart = await setRessource(cart, "Cart");
+    cart.total = cart.total + product.price;
+    await setRessource(cart, "Cart");
     fetch("http://localhost:3000/cart", {
         method: "POST",
         headers: {
@@ -33,19 +33,25 @@ export async function deleteOne(e){
 
     let product = await getRessource(parseInt(e.target.id));
     let cart = await getRessource(1, "Cart");
+    let productIndex = null;
 
-    cart.products.map((item) => {
+    const isEmpty = cart.products.reduce((acc, item, index) => {
         if(item.product.id === product.id){
+            productIndex = index;
             if(item.number < 2){
-                deleteAll(e);
-            } else {
-                item.number--;
+                return true;
             }
         }
-    })
+        return acc;
+    }, false)
+    if(isEmpty){
+        deleteAll(e);
+        return;
+    }
+    cart.products[productIndex].number--;
     
-    cart.total = parseFloat(cart.total) - parseFloat(product.price);
-    cart = await setRessource(cart, "Cart");
+    cart.total = cart.total - product.price;
+    await setRessource(cart, "Cart");
 
     fetch("http://localhost:3000/cart", {
         method: "POST",
@@ -72,10 +78,14 @@ export async function deleteAll (e) {
             productIndex = index;
         }
     })
-
-    cart.total = parseFloat(cart.total) - parseFloat(product.price) * parseFloat(cart.products[productIndex].number);
-    cart.products.splice(productIndex, 1);
-    cart = await setRessource(cart, "Cart");
+    if(cart.products.length ===  1){
+        cart.total = 0;
+        cart.products.pop();
+    } else {
+        cart.total = cart.total - (product.price * cart.products[productIndex].number);
+        cart.products.splice(productIndex, 1);
+    }
+    await setRessource(cart, "Cart");
 
     fetch("http://localhost:3000/cart", {
         method: "POST",
@@ -118,8 +128,8 @@ export async function addProduct(e){
             },
         ]
     } 
-    cart.total = parseFloat(cart.total) + parseFloat(product.price);
-    cart = await setRessource(cart, "Cart");
+    cart.total = cart.total + product.price;
+    await setRessource(cart, "Cart");
 
     fetch("http://localhost:3000/cart", {
         method: "POST",
@@ -130,6 +140,5 @@ export async function addProduct(e){
         body: JSON.stringify(cart)
     })
     .then( res => res.json())
-    .then( () => window.location.reload())
     .catch( err => console.error(err))
 }

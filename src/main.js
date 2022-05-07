@@ -99,8 +99,7 @@ import { getRessource, getRessources, setRessource, setRessources, unsetRessourc
         },"Cart")
       }
     }
-
-    AppCart.items = storedCart.products;
+    AppCart.cart = storedCart;
     AppCart.active = true;
 
     skeleton.setAttribute('hidden', 'hiddle');
