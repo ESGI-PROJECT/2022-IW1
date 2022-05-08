@@ -7,11 +7,13 @@ export class AppProduct extends Base {
     this.product = {};
 
     this.loaded = false;
+    this.inCart = false;
   }
   static get properties() {
     return {
       product: { type: Object },
-      loaded: { type: Boolean, state: true }
+      loaded: { type: Boolean, state: true },
+      inCart: { type: Boolean, state: true }
     };
   }
 
@@ -41,6 +43,10 @@ export class AppProduct extends Base {
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
         </main>
+        ${this.inCart 
+          ? html`<button @click="${this.removeFromCartAction}" >Remove from Cart</button>`
+          : html`<button @click="${this.addInCartAction}" >Add to Cart</button>`
+        }
       </section>
     `;
   }
