@@ -47,6 +47,35 @@
   font-size: 0.75rem;
   color: #6D6D6D;
 }
+.fa-shopping-cart {
+  color: white;
+  margin-left: 100%;
+}
+
+#container {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5%;
+}
+
+#product-title {
+  font-size: 1em;
+}
+
+#description-product {
+  width: 25%;
+}
+
+#quantity {
+  height: 5%;
+  width: 3%;
+}
+
+.card-contenu {
+  text-decoration: none;
+  color: inherit;
+}
 
 /**
   * Persist animation using : animation-fill-mode set to forward 

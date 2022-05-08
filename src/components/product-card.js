@@ -27,6 +27,8 @@ export class ProductCard extends Base {
   render() {
     return html`
       <a href="/product/${this.product.id}" class="card">
+      <div class="card">
+        <a href="/product/${this.product.id}" class="card-contenu">
         <header>
           <figure>
             <div class="placeholder ${this.loaded ? "fade": ""}" style="background-image: url(http://localhost:9000/image/24/${this.product.image})"></div>
@@ -36,8 +38,10 @@ export class ProductCard extends Base {
         <main>
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
+          <cart-button .product="${this.product}"></cart-button>
         </main>
       </a>
+      </div>
     `;
   }
 }
