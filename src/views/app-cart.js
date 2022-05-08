@@ -11,24 +11,26 @@ export class AppCart extends Base {
   static get properties() {
     return {
       products: { type: Array },
-      totalAmount: { type: Number },
+      totalAmount: { type: Number, state: true },
     };
   }
   _addToTotalAmount = (amount) => {
-    console.log("before total : " + this.totalAmount);
-    console.log(" amount : " + amount);
-
-    this.totalAmount = this.totalAmount + amount;
+    // this.totalAmount = parseInt(this.totalAmount) + parseInt(amount);
     console.log("total : " + this.totalAmount);
 
     // console.log(this.totalAmount);
   };
+
+  removeItemFromList = (productId) => {
+    this.products = this.products.filter((product) => product.id != productId);
+  };
+
   render() {
     const htmlProductTable = this.products.map(
       (product) =>
         html`<cart-item .product ="${{ ...product }}" .addToTotalAmount ="${
           this._addToTotalAmount
-        }"></-card> `
+        }" .removeItemFromList=${this.removeItemFromList}></-card> `
     );
     return html`
       <section class="cart">

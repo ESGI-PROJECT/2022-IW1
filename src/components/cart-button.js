@@ -21,19 +21,23 @@ export class CartButton extends Base {
   }
 
   async _handleClick(e) {
-    this.product.quantity = 1;
     const storedCartItem = await getRessource(this.product.id, "Cart");
 
     // await setRessource(this.product, "Cart");
+    const amount = Number(this.product.price).toFixed(2);
 
     console.log(storedCartItem);
     if (storedCartItem === undefined) {
-      this.product.quantity = 1;
+      this.product = { ...this.product, quantity: 1, amount: amount };
       await setRessource(this.product, "Cart");
     } else {
       storedCartItem.quantity = Number(storedCartItem.quantity) + 1;
+      storedCartItem.amount = Number(
+        storedCartItem.quantity * storedCartItem.price
+      ).toFixed(2);
+      this.product = { storedCartItem };
       const AddedCartItem = await setRessource(storedCartItem, "Cart");
-      console.log(storedCartItem);
+      // console.log(storedCartItem);
     }
 
     alert("Added successfully!!! go to cart page to see all items");

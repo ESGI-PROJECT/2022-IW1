@@ -6,8 +6,8 @@ export class CartItem extends Base {
   constructor() {
     super();
     this.product = {};
-    this.addToTotalAmount;
-
+    this._addToTotalAmount;
+    this.removeItemFromList;
     this.loaded = false;
   }
 
@@ -64,27 +64,26 @@ export class CartItem extends Base {
     const quantity = Number(e.target.value);
     if (this.product.quantity !== quantity && quantity !== 0) {
       const amount = Number(quantity * this.product.price).toFixed(2);
-      // const product = { ...this.product };
-      // this.product = { ...this.product, quantity: quantity, amount: amount };
-      this.addToTotalAmount(amount - Number(this.product.amount).toFixed(2));
-      this.product.amount = amount;
-      this.product.quantity = quantity;
+      // this._addToTotalAmount(amount - Number(this.product.amount).toFixed(2));
+
       // this.requestUpdate();
-      // if (diff < 0) this.addToTotalAmount(-amount * diff);
-      // else this.addToTotalAmount(amount * diff);
+      const newTotal = Number(amount - this.product.amount).toFixed(2);
+      this.addToTotalAmount(newTotal);
+
+      this.product = { ...this.product, quantity: quantity, amount: amount };
       await setRessource(this.product, "Cart");
 
       console.log("Added successfully!!! go to cart page to see all items");
       console.log(this.product.quantity);
     }
   }
-  async _removeProduct(e) {
+  _removeProduct = async (e) => {
     let text = "Are you sure you want to delete this item?";
     if (confirm(text) == true) {
       await unsetRessource(this.product.id, "Cart");
-
       console.log("Deleted successfully!!!");
+      this.removeItemFromList(this.product.id);
     }
-  }
+  };
 }
 customElements.define("cart-item", CartItem);
