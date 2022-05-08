@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { Base } from '../Base';
+import { removeItemFromCart } from '../helpers/cartHelper';
 
 export class CartProductItem extends Base {
   constructor() {
@@ -21,6 +22,22 @@ export class CartProductItem extends Base {
     img.addEventListener('load', async () => {
       this.loaded = true;
     });
+  }
+
+  async removeFromCartAction(e){
+    e.preventDefault();
+    await removeItemFromCart(this.product.id);
+    window.location.reload();
+  }
+
+  incrementQty(e){
+    e.preventDefault();
+    updateQty('inc'); 
+  }
+
+  decrementQty(e){
+    e.preventDefault();
+    updateQty('dec'); 
   }
 
   render() {

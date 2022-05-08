@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
-import { isInCart } from '../helpers/cartHelper';
+import { isInCart, addItemToCart, removeItemFromCart } from '../helpers/cartHelper';
 export class AppProduct extends Base {
   constructor() {
     super();
@@ -26,6 +26,18 @@ export class AppProduct extends Base {
         this.inCart = true;
       }
     });
+  }
+
+  async addInCartAction(e){
+    e.preventDefault();
+    await addItemToCart(this.product);
+    this.inCart = true;
+  }
+
+  async removeFromCartAction(e){
+    e.preventDefault();
+    await removeItemFromCart(this.product.id);
+    this.inCart = false;
   }
 
   render() {
