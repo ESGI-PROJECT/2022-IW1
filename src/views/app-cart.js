@@ -48,14 +48,7 @@ export class AppCart extends Base {
 
           ${htmlProductTable}
 
-          <div class="totals">
-            <div class="totals-item totals-item-total">
-              <label>Total</label>
-              <div class="totals-value" id="cart-total">
-                ${this.totalAmount}
-              </div>
-            </div>
-          </div>
+
 
           <button class="checkout">Checkout</button>
         </div>
@@ -63,4 +56,12 @@ export class AppCart extends Base {
     `;
   }
 }
+{/* <div class="totals">
+<div class="totals-item totals-item-total">
+  <label>Total</label>
+  <div class="totals-value" id="cart-total">
+    ${this.totalAmount}
+  </div>
+</div>
+</div> */}
 customElements.define("app-cart", AppCart);
