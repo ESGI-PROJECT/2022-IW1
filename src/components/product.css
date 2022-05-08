@@ -47,6 +47,37 @@
   font-size: 0.75rem;
   color: #6D6D6D;
 }
+.card main button {
+  margin-top: 5px;
+  padding: 5px;
+  color: white;
+  background-color: #2022a1;
+  border-radius: 10px;
+}
+.card main button:hover {
+  background-color: #4f5096;
+}
+
+
+.btn-add-cart {
+  margin-top: 5px;
+  padding: 5px;
+  color: white;
+  background-color: #2022a1;
+  cursor: pointer;
+}
+.btn-add-cart:hover {
+  background-color: #4f5096;
+}
+
+#my-cart {
+  margin-left: 50px;
+  color: white;
+  text-decoration: none;
+  background-color: #6D6D6D;
+  padding: 10px;
+  cursor: pointer;
+}
 
 /**
   * Persist animation using : animation-fill-mode set to forward 

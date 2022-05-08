@@ -1,40 +1,32 @@
 import { LitElement, html, css } from 'lit';
 import { Base } from '../Base';
 
-export class ProductCard extends Base {
-  constructor() {
+export class Cart extends Base {
+
+  constructor(product) {
     super();
 
-    this.product = {};
+    this.product = product;
 
 
     this.loaded = false;
 
-    this.addEventListener('click', this.addToCart);
   }
-  static get properties() {
-    return {
-      product: { type: Object },
-      loaded: { type: Boolean, state: true }
-    };
-  }
+
 
   firstUpdated() {
     const image = this.querySelector('img');
     image.addEventListener('load', () => {
       this.loaded = true;
     });
-    this.addEventListener('click', this.addToCart);
   }
 
   render() {
-
-    return html`
-      <button class="btn-add-cart" onClick="")">Add to cart +</button>
-      <a href="/product/${this.product.id}" class="card">
+    return html `
+      <div class="card">
         <header>
           <figure>
-            <div class="placeholder ${this.loaded ? 'fade' : ''}" style="  background-image: url(http://localhost:9000/image/24/${this.product.image})"></div>
+            <div class="placeholder ${this.loaded ? 'fade' : ''}" style="background-image: url(http://localhost:9000/image/24/${this.product.image})"></div>
             <img
               loading="lazy"
               src="http://localhost:9000/image/500/${this.product.image}"
@@ -46,10 +38,9 @@ export class ProductCard extends Base {
         </header>
         <main>
           <h1>${this.product.title}</h1>
-          <p>${this.product.description}</p>
         </main>
-      </a> 
+      </div> 
     `;
   }
 }
-customElements.define('product-card', ProductCard);
+customElements.define('product-cart', Cart);
