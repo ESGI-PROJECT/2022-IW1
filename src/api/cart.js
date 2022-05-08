@@ -9,6 +9,12 @@ export function getCart() {
 }
 
 export function updateCart(newCart) {
+  if( !newCart.products ){
+    newCart.products = [];
+  }
+  if( !newCart.total || isNaN(newCart.total) || newCart.total < 0 ){
+    newCart.total = 0;
+  }
   return request.post("/cart", newCart)
     .then(({ data }) => data)
     .catch(console.error);

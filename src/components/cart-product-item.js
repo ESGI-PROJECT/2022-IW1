@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { Base } from '../Base';
-import { removeItemFromCart } from '../helpers/cartHelper';
+import { editProduct, removeItemFromCart } from '../helpers/cartHelper';
 
 export class CartProductItem extends Base {
   constructor() {
@@ -30,14 +30,14 @@ export class CartProductItem extends Base {
     window.location.reload();
   }
 
-  incrementQty(e){
+  async incrementQty(e){
     e.preventDefault();
-    updateQty('inc'); 
+    await editProduct(this.product.id, 'inc'); 
   }
 
-  decrementQty(e){
+  async decrementQty(e){
     e.preventDefault();
-    updateQty('dec'); 
+    await editProduct(this.product.id, 'dec'); 
   }
 
   render() {
@@ -53,8 +53,8 @@ export class CartProductItem extends Base {
           <h1>${this.product.title}</h1>
           <div style="display: flex">
             <button @click="${this.removeFromCartAction}" >Remove from Cart</button>
-            <button @click="${this.incrementQty}">-</button>
-            <button @click="${this.decrementQty}">+</button>
+            <button @click="${this.decrementQty}">-</button>
+            <button @click="${this.incrementQty}">+</button>
             <p style="margin-left: 10px">${this.product.quantity} in cart</p>
           </div>
         </main>

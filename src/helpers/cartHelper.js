@@ -51,6 +51,9 @@ export async function removeItemFromCart(id){
         const NETWORK_STATE = window.navigator.onLine;
         let currentCart = {};
         let concernedProduct = {};
+        let fullProd = await getRessource(id);
+
+        if(!fullProd) throw new Error('Could not find the original product');
 
         if(NETWORK_STATE){
             currentCart = await getCart();
@@ -63,8 +66,9 @@ export async function removeItemFromCart(id){
             throw new Error('Product not in cart');
         }
 
+        console.log(currentCart.total + ' - ' + fullProd.price);
+        currentCart.total = parseFloat(currentCart.total) - fullProd.price;
         currentCart.products = currentCart.products.filter( prod => prod.id !== id);
-        currentCart.total = parseFloat(currentCart.total || 0) - concernedProduct.price;
 
         if(NETWORK_STATE){
             await updateCart(currentCart);
@@ -72,7 +76,7 @@ export async function removeItemFromCart(id){
         await setRessource({id:1, ...currentCart}, CART_DB);
         
     }catch(e){
-        //console.error(e.message);
+        console.error(e.message);
     }
     
 }
@@ -82,3 +86,46 @@ export async function sendLocalCart(){
     await updateCart(currentCart);
 }
 
+export async function editProduct(id, flag){
+    try{
+        if( !['inc', 'dec'].includes(flag) ) throw new Error('Wrong flag');
+
+        const currentCart = await getRessource(1, CART_DB);
+        if(!currentCart) return;
+
+        if( currentCart.products.length < 1) throw new Error('No product');
+
+        let product = currentCart.products.find( prod => prod.id === id);
+        if(!product) throw new Error('Product not in cart');;
+
+        let fullProd = await getRessource(product.id);
+        if(!fullProd) throw new Error('Could not find the original product');
+
+        switch(flag){
+            case 'inc':
+                product.quantity = product.quantity + 1;
+                currentCart.total = parseFloat(currentCart.total) + parseFloat(fullProd.price);
+                currentCart.total = currentCart.total.toFixed(2);
+                break;
+            case 'dec':
+                product.quantity = product.quantity - 1;
+                if(product.quantity <= 0){
+                    await removeItemFromCart(id);
+                    return;
+                }else{
+                    currentCart.total = parseFloat(currentCart.total) - parseFloat(fullProd.price);
+                    currentCart.total = currentCart.total.toFixed(2);
+                }
+                break;
+    
+        }
+        const NETWORK_STATE = window.navigator.onLine;
+        if(NETWORK_STATE){
+            await updateCart(currentCart);
+        }
+        await setRessource({id:1, ...currentCart}, CART_DB);
+    }catch(e){
+        console.error(e.message);
+    }
+    
+}

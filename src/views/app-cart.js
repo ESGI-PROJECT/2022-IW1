@@ -19,7 +19,10 @@ export class AppCart extends Base {
 
   render() {
     return html`
-      <h1>Cart</h1>
+      <div>
+        <h1>Cart</h1>
+        <h2>Total: ${this.cart.total}$</h2>
+      </div>
       ${
         this.cart.products?.length > 0
         ? this.cart.products.map((product) => html`

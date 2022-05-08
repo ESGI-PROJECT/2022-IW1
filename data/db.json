@@ -1,13 +1,8 @@
 {
   "cart": {
     "id": 1,
-    "total": 109.95,
-    "products": [
-      {
-        "id": 1,
-        "quantity": 1
-      }
-    ]
+    "products": [],
+    "total": 0
   },
   "products": [
     {

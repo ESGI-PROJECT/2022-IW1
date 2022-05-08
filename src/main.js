@@ -30,12 +30,9 @@ import { sendLocalCart } from "./helpers/cartHelper";
     if (NETWORK_STATE) {
       document.documentElement.style.setProperty('--app-bg-color', 'royalblue');
       if(CONNECTION_LOST){
+        //Sending local cart to api if the connection is restored
         await sendLocalCart();
         CONNECTION_LOST = false;
-      }else{
-        //Sending local cart to api if the connection is restored
-        const cart = await getCart();
-        await setRessource({id: 1, ...cart} , CART_DB);
       }
     } else {
       CONNECTION_LOST = true;
@@ -90,7 +87,12 @@ import { sendLocalCart } from "./helpers/cartHelper";
 
   page('/cart', async () => {
     let cart = {};
-    cart = await getRessource(1, CART_DB);
+    if(NETWORK_STATE){
+      cart = await getCart();
+      await setRessource({id: 1, ...cart} , CART_DB);
+    }else{
+      cart = await getRessource(1, CART_DB);
+    }
 
     //Retrieving data from the products in cart
     if(cart.products.length > 0){
@@ -98,13 +100,14 @@ import { sendLocalCart } from "./helpers/cartHelper";
         return getRessource(prod.id);
       });
       let products = (await Promise.all(tmpProducts));
-
-      cart.products = cart.products.map( itemInCart => {
-        let prod = products.find( prod => itemInCart.id === prod.id);
-        return {...itemInCart, ...prod}
-      })
+      if(products.length > 0){
+        cart.products = cart.products.map( itemInCart => {
+          let prod = products.find( prod => itemInCart.id === prod.id);
+          return {...itemInCart, ...prod}
+        })
+      }
    }
-
+   console.log(cart)
     AppCart.cart = cart;
     AppCart.active = true;
 
