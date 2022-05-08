@@ -24,8 +24,7 @@ export class CartButton extends Base {
     this.product.quantity = 1;
     const storedCartItem = await getRessource(this.product.id, "Cart");
 
-    
-    await setRessource(this.product, "Cart");
+    // await setRessource(this.product, "Cart");
 
     console.log(storedCartItem);
     if (storedCartItem === undefined) {

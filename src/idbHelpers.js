@@ -1,4 +1,6 @@
 import { openDB } from "idb";
+import { NETWORK_STATE } from "./networkState";
+import { setCartItems } from "./api/cart";
 
 const STORE_NAME = "Products";
 
@@ -23,6 +25,9 @@ export function initDB() {
 }
 
 export async function setRessources(data = [], storeName = "Products") {
+  if (storeName == "Cart" && NETWORK_STATE) {
+    await setCartItems(data);
+  }
   const db = await initDB();
   const tx = db.transaction(storeName, "readwrite");
   data.forEach((item) => {
@@ -37,6 +42,12 @@ export async function setRessource(data = {}, storeName = "Products") {
   const tx = db.transaction(storeName, "readwrite");
   tx.store.put(data);
   await tx.done;
+
+  // synchronize with database
+  if (storeName == "Cart" && NETWORK_STATE) {
+    const storedCartItems = await getRessources("Cart");
+    await setCartItems(storedCartItems);
+  }
   return db.getFromIndex(storeName, "id", data.id);
 }
 

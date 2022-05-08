@@ -6,15 +6,29 @@ export class AppCart extends Base {
   constructor() {
     super();
     this.products = [];
+    this.totalAmount = 0;
   }
   static get properties() {
     return {
       products: { type: Array },
+      totalAmount: { type: Number },
     };
   }
+  _addToTotalAmount = (amount) => {
+    console.log("before total : " + this.totalAmount);
+    console.log(" amount : " + amount);
+
+    this.totalAmount = this.totalAmount + amount;
+    console.log("total : " + this.totalAmount);
+
+    // console.log(this.totalAmount);
+  };
   render() {
     const htmlProductTable = this.products.map(
-      (product) => html`<cart-item .product="${product}"></-card> `
+      (product) =>
+        html`<cart-item .product ="${{ ...product }}" .addToTotalAmount ="${
+          this._addToTotalAmount
+        }"></-card> `
     );
     return html`
       <section class="cart">
@@ -33,21 +47,11 @@ export class AppCart extends Base {
           ${htmlProductTable}
 
           <div class="totals">
-            <div class="totals-item">
-              <label>Subtotal</label>
-              <div class="totals-value" id="cart-subtotal">71.97</div>
-            </div>
-            <div class="totals-item">
-              <label>Tax (5%)</label>
-              <div class="totals-value" id="cart-tax">3.60</div>
-            </div>
-            <div class="totals-item">
-              <label>Shipping</label>
-              <div class="totals-value" id="cart-shipping">15.00</div>
-            </div>
             <div class="totals-item totals-item-total">
-              <label>Grand Total</label>
-              <div class="totals-value" id="cart-total">90.57</div>
+              <label>Total</label>
+              <div class="totals-value" id="cart-total">
+                ${this.totalAmount}
+              </div>
             </div>
           </div>
 

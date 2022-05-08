@@ -2,6 +2,8 @@ import page from "page";
 import checkConnectivity from "network-latency";
 
 import { getProducts, getProduct } from "./api/products";
+import { setCartItems } from "./api/cart";
+import { NETWORK_STATE, setNetworkState } from "./networkState";
 import "./views/app-home";
 import {
   getRessource,
@@ -18,14 +20,22 @@ import {
     threshold: 2000,
   });
 
-  let NETWORK_STATE = true;
+  // let NETWORK_STATE = true;
+  let cartUptoDate = false;
 
-  document.addEventListener("connection-changed", ({ detail }) => {
-    NETWORK_STATE = detail;
+  document.addEventListener("connection-changed", async ({ detail }) => {
+    setNetworkState(detail);
     if (NETWORK_STATE) {
+      if (cartUptoDate === false) {
+        const storedCartItems = await getRessources("Cart");
+        await setCartItems(storedCartItems);
+        cartUptoDate = true;
+        console.log("updated");
+      }
       document.documentElement.style.setProperty("--app-bg-color", "royalblue");
     } else {
       document.documentElement.style.setProperty("--app-bg-color", "#717276");
+      cartUptoDate = false;
     }
   });
 
