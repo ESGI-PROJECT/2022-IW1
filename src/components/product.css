@@ -9,6 +9,21 @@
   color: inherit;
 }
 
+.card > a {
+  text-decoration: none;
+  color: black;
+}
+
+.card > button {
+  padding: 1em;
+  margin: 1em;
+  background-color: royalblue;
+  float: right;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
 .card header {
   position: relative;
   min-height: 30vh;

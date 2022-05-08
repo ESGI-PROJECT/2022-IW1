@@ -13,3 +13,21 @@ export function getProduct(productid) {
     .then(({ data }) => data)
     .catch(console.error);
 }
+
+export function getProductsCart() {
+  return request.get('/cart')
+    .then(({ data }) => {
+      console.log(data);
+      return data;
+    })
+    .catch(console.error);
+    
+}
+
+export async function addProductToCart(product) {
+  const cart = await getProductsCart();
+  const newCart = [...cart.filter(item => item.id !== product.id), product];
+  return request.post(`/cart`, newCart)
+    .then(({ data }) => data)
+    .catch(console.error);
+}

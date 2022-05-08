@@ -34,7 +34,7 @@
     top: 0;
     background-color: var(--app-bg-color);
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     height: 56px;
     color: #ffffff;
@@ -44,6 +44,9 @@
     padding: 0 1rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
+  }
+  #app > header > .nav {
+    margin-right: 1em;
   }
 
   /* App shell */
@@ -97,6 +100,7 @@
     display: block;
   }
 
+
 </style>
 <link href="./src/components/product.css" rel="preload" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="./src/components/product.css"></noscript>
@@ -105,13 +109,18 @@
 <body>
   <section id="app">
     <header>
+      <div class="hiddenDiv"></div>
       <h1><a href="/">Nozama shop 🛍</a></h1>
+      <div class="nav">
+        <a href="/cart">Cart</a>
+      </div>
     </header>
     <main>
-
+<h1 style="color:red; text-align: center; margin-bottom: 1em;">Fonctionne que en hors ligne</h1>
       <app-home page></app-home>
       <app-product page></app-product>
-
+      <app-cart page></app-cart>
+      
       <div class="skeleton">
         <div class="hero"></div>
         <div class="title"></div>
