@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
-
+import { isInCart } from '../helpers/cartHelper';
 export class AppProduct extends Base {
   constructor() {
     super();
@@ -19,8 +19,12 @@ export class AppProduct extends Base {
 
   firstUpdated() {
     const img = this.querySelector('img');
-    img.addEventListener('load', () => {
+    img.addEventListener('load', async () => {
       this.loaded = true;
+
+      if( await isInCart(this.product.id) ){
+        this.inCart = true;
+      }
     });
   }
 

@@ -6,7 +6,7 @@ import { getProducts, getProduct } from './api/products';
 import "./views/app-home";
 import "./views/app-cart";
 
-import { getRessource, getRessources, setRessource, setRessources } from "./idbHelpers";
+import { getRessource, getRessources, setRessource, setRessources } from "./helpers/idbHelpers";
 
 (async (root) => {
 

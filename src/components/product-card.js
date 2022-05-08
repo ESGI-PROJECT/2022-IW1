@@ -1,6 +1,6 @@
 import { html } from 'lit';
 import { Base } from '../Base';
-
+import { isInCart } from '../helpers/cartHelper';
 export class ProductCard extends Base {
   constructor() {
     super();
@@ -19,11 +19,14 @@ export class ProductCard extends Base {
     };
   }
 
-  firstUpdated() {
+  async firstUpdated() {
     const img = this.querySelector('img');
     img.addEventListener('load', () => {
       this.loaded = true;
     });
+    if( await isInCart(this.product.id) ){
+      this.inCart = true;
+    }
   }
 
   render() {
