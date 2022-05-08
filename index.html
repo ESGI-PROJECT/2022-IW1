@@ -34,11 +34,17 @@
     top: 0;
     background-color: var(--app-bg-color);
     display: flex;
-    justify-content: center;
+    
     align-items: center;
     height: 56px;
     color: #ffffff;
     z-index: 10;
+  }
+  #app > header > div {
+    flex:1;
+  }
+  #app > header > a {
+    margin-right: 35px;
   }
   #app > main {
     padding: 0 1rem;
@@ -105,12 +111,16 @@
 <body>
   <section id="app">
     <header>
-      <h1><a href="/">Nozama shop 🛍</a></h1>
+      <div>
+        <h1><a href="/">Nozama shop 🛍</a></h1>
+      </div>  
+      <a href="/cart">Le panier</a>
     </header>
     <main>
 
       <app-home page></app-home>
       <app-product page></app-product>
+      <app-cart page></app-cart>
 
       <div class="skeleton">
         <div class="hero"></div>
