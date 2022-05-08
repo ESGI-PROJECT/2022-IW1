@@ -1,0 +1,26 @@
+table{
+    margin-top: 1rem;
+    width: 100%;
+}
+th,td {
+    width: 25%;
+}
+td {
+    border: 1px solid #333;
+}
+
+thead,
+tfoot {
+    background-color: #333;
+    color: #fff;
+}
+
+.action{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.total{
+    margin-top: 2rem;
+}

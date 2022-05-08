@@ -3,8 +3,10 @@ import checkConnectivity from "network-latency";
 
 
 import { getProducts, getProduct } from './api/products';
+import { setCartData, getCart } from './api/cart';
 import "./views/app-home";
-import { getRessource, getRessources, setRessource, setRessources } from "./idbHelpers";
+import "./views/app-cart";
+import { getRessource, getRessources, setRessource, setRessources, setCart } from "./idbHelpers";
 
 (async (root) => {
 
@@ -29,12 +31,14 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
   const AppHome = main.querySelector('app-home');
   const AppProduct = main.querySelector('app-product');
+  const AppCart = main.querySelector('app-cart');
 
   page('*', (ctx, next) => {
     skeleton.removeAttribute('hidden');
 
     AppHome.active = false;
     AppProduct.active = false;
+    AppCart.active = false;
 
     next();
   });
@@ -47,7 +51,7 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
     } else {
       storedproducts = await getRessources();
     }
-
+    
     AppHome.products = storedproducts;
     AppHome.active = true;
 
@@ -68,6 +72,29 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
     AppProduct.product = storedProduct;
     AppProduct.active = true;
 
+    skeleton.setAttribute('hidden', 'hiddle');
+  });
+
+  page('/cart', async () => {
+    let storedcartproducts = {};
+    if (NETWORK_STATE) {
+      const [cart] = await getCart('Cart');
+      const [localCart] = await getRessources('Cart');
+
+      if(cart !== localCart){
+        await setCartData(localCart);
+        [storedcartproducts] = await setCart(localCart,'Cart');
+      }else{
+        [storedcartproducts] = await setCart(cart,'Cart');
+      }
+  
+    } else {
+      [storedcartproducts] = await getRessources('Cart');
+    }
+
+    AppCart.cart = storedcartproducts;
+    AppCart.active = true;
+    
     skeleton.setAttribute('hidden', 'hiddle');
   });
 

@@ -1,12 +1,17 @@
 .card {
   position: relative;
+  padding-bottom: 1rem;
   margin-bottom: 1rem;
   border-radius: 0.5rem;
-  overflow: hidden;
   box-shadow: 0px 1px 2px 0px hsla(0, 0%, 0%, 0.44);
-  text-decoration: none;
   display: block;
+}
+
+.card a{
+  position: relative;
+  text-decoration: none;
   color: inherit;
+  overflow: hidden;
 }
 
 .card header {
@@ -46,6 +51,10 @@
   padding-top: 0.25rem;
   font-size: 0.75rem;
   color: #6D6D6D;
+}
+.card .btn{
+  display: flex;
+  margin: 10px auto 0 auto;
 }
 
 /**

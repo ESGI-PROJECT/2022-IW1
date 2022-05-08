@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
+import { addToCart } from "../cartHelpers";
 
 export class AppProduct extends Base {
   constructor() {
@@ -22,6 +23,13 @@ export class AppProduct extends Base {
     });
   }
 
+  async addToCart(product){
+    const cart = await addToCart(product);
+    if(cart){
+      alert('Votre produit a été ajouter au panier.')
+    }
+  }
+
   render() {
     return html`
       <section class="product">
@@ -41,6 +49,7 @@ export class AppProduct extends Base {
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
         </main>
+        <button @click="${()=>this.addToCart(this.product)}" class="btn">Add to cart</button>
       </section>
     `;
   }
