@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
+import { setCart } from '../idbHelpers';
 
 export class AppProduct extends Base {
   constructor() {
@@ -22,6 +23,12 @@ export class AppProduct extends Base {
     });
   }
 
+  addToCart() {
+    // AppCart.cart.push(this.product);
+    setCart(this.product);
+    console.log('cliqué');
+  }
+
   render() {
     return html`
       <section class="product">
@@ -40,6 +47,7 @@ export class AppProduct extends Base {
         <main>
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
+          <button @click='${() => this.addToCart()}'>Ajouter au panier</button>
         </main>
       </section>
     `;
