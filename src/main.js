@@ -1,7 +1,8 @@
 import page from "page";
 import checkConnectivity from "network-latency";
-import { getRessource, getRessources, setRessource, setRessources, getInCart } from './idbHelper';
-import { getProducts, getProduct, getCart } from "./api/products";
+import {getRessource, getRessources, setRessource, setRessources, getInCart, setInCart} from './idbHelper';
+import {getProducts, getProduct} from "./api/products";
+import {getCart, postCart} from "./api/cart";
 
 
 (async (root) => {
@@ -77,8 +78,17 @@ import { getProducts, getProduct, getCart } from "./api/products";
   page('/cart', async () => {
     await import("./views/app-cart");
 
-    let storedCart = {};
-    storedCart = await getInCart();
+    let storedCart = [];
+    if (NETWORK_STATE) {
+      /*const store = getInCart();
+      await postCart(store);
+
+      const cart = await getCart();
+      storedCart = await setInCart(cart);*/
+      storedCart = await getInCart();
+    } else {
+      storedCart = await getInCart();
+    }
 
     AppCart.products = storedCart;
     AppCart.active = true;
