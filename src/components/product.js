@@ -11,7 +11,7 @@ export default {
     id: null,
     title: "",
     description: "",
-    image: null
+    image: null,
   },
   render() {
     const template = document.createElement('div');

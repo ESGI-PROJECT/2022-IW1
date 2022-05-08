@@ -16,6 +16,7 @@ export function initDB() {
       store.createIndex("id", "id");
       store.createIndex("category", "category");
       cart.createIndex("id", "id");
+      cart.createIndex("quantity", "quantity");
     }
   });
 }
@@ -52,6 +53,17 @@ export async function setCart(data = {}) {
   await tx.done;
   return db.getFromIndex(CART_NAME, "id", data.id);
 }
+export async function setQuantity(data = {}) {
+  // TODO
+}
+
+export async function deleteCart(data = {}) {
+  const db = await initDB();
+  const tx = db.transaction(CART_NAME, "readwrite");
+  tx.store.delete(data);
+  await tx.done;
+  return db.getAllFromIndex(CART_NAME, "id");
+}
 
 export async function getRessources() {
   const db = await initDB();
@@ -66,6 +78,10 @@ export async function getCart() {
 export async function getRessource(id) {
   const db = await initDB();
   return db.getFromIndex(STORE_NAME, "id", id);
+}
+export async function getCartProduct(id) {
+  const db = await initDB();
+  return db.getFromIndex(CART_NAME, "id", id);
 }
 
 export async function unsetRessource(id) {

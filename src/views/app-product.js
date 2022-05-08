@@ -1,6 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
-import { setCart } from '../idbHelpers';
+import { setCart, getCartProduct } from '../idbHelpers';
 
 export class AppProduct extends Base {
   constructor() {
@@ -25,7 +25,10 @@ export class AppProduct extends Base {
 
   addToCart() {
     // AppCart.cart.push(this.product);
-    setCart(this.product);
+    if (getCartProduct(this.product.id).then(product => product === undefined)) {
+      console.log('il est undefined');
+      setCart(this.product);
+    }
     console.log('cliqué');
   }
 

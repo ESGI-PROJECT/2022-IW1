@@ -1,6 +1,7 @@
-import { LitElement, html, css } from 'lit';
+import { html } from 'lit';
 import { Base } from '../Base';
 import "../components/product-card";
+import { setCart, getCartProduct } from '../idbHelpers';
 
 export class AppHome extends Base {
   constructor() {
@@ -12,11 +13,23 @@ export class AppHome extends Base {
       products: { type: Array }
     }
   }
+
+  addToCart(myProduct) {
+    // AppCart.cart.push(this.product);
+    if (getCartProduct(myProduct.id).then(product => product === undefined)) {
+      console.log('il est undefined');
+      setCart(myProduct);
+    }
+    console.log('cliqué');
+  }
+
   render() {
     return this.products.map((product) => html`
       <product-card
         .product="${product}"
-      ></product-card>
+      >
+      <button @click='${() => this.addToCart(product)}'>Ajouter au panier</button>
+      </product-card>
     `);
   }
 }
