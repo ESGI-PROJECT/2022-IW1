@@ -1,12 +1,10 @@
 import {LitElement, html, css} from 'lit';
 import {
-    decrementQuantity,
     deleteInCart,
     getInCart,
-    getInCartItem,
-    incrementQuantity,
+    getInCartItem, getTest,
     setInCart,
-    setInCartItem
+    setInCartItem, setTest
 } from "../../idbHelper";
 import {Base} from "../../Base";
 
@@ -41,6 +39,12 @@ export class ProductCart extends Base {
         cart.quantity = cart.quantity + 1;
         console.log(cart);
         await setInCartItem(cart);
+
+        const b = await getTest();
+        b[0].storage.push(cart);
+        console.log(b[0].storage);
+        console.log(b);
+        await setTest(b);
     }
 
     async _handleClickDecrement() {

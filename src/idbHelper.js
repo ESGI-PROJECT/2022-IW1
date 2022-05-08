@@ -97,16 +97,16 @@ export async function setInCartItem(data = {}) {
   await tx.done;
 }
 
-export async function incrementQuantity(id) {
+export async function getTest() {
   const db = await initDB();
-  const value = await db.get(CART_STORE_NAME, Number(id));
-  await db.put(CART_STORE_NAME, value.quantity = value.quantity +1, id);
+  return db.getAllFromIndex(TEST_STORE_NAME, "name");
 }
 
-export async function decrementQuantity(id) {
+export async function setTest(data = []) {
   const db = await initDB();
-  const value = await db.getFromIndex(CART_STORE_NAME, "id", Number(id));
-  if (value > 1) {
-    await db.add(CART_STORE_NAME, value.quantity = value.quantity -1, id);
-  }
+  const tx = db.transaction(TEST_STORE_NAME, 'readwrite');
+  data.forEach(item => {
+    tx.store.put(item);
+  });
+  await tx.done;
 }
