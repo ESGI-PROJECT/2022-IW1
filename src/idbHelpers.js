@@ -8,11 +8,28 @@ export function initDB() {
       const store = db.createObjectStore(STORE_NAME, {
         keyPath: "id"
       });
+      const cartStore = db.createObjectStore("Cart", {
+        keyPath: "id"
+      });
 
       store.createIndex("id", "id");
       store.createIndex("category", "category");
+      cartStore.createIndex("id", "id");
     }
   });
+}
+
+export async function setCart(data = {}) {
+  const db = await initDB();
+  const tx = db.transaction("Cart", "readwrite");
+  tx.store.put(data);
+  await tx.done;
+  return db.getFromIndex('Cart', "id", data.id);
+}
+
+export async function getIdbCart(id) {
+  const db = await initDB();
+  return db.getFromIndex("Cart", "id", id);
 }
 
 export async function setRessources(data = []) {
