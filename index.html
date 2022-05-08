@@ -25,21 +25,33 @@
     padding: 0;
   }
   #app > header a {
+    align-items: center;
     text-decoration: none;
     color: inherit;
+    justify-content: center;
   }
   #app > header {
     text-align: center;
     position: sticky;
     top: 0;
     background-color: var(--app-bg-color);
-    display: flex;
-    justify-content: center;
     align-items: center;
     height: 56px;
     color: #ffffff;
     z-index: 10;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-around;
   }
+
+  .header-right {
+    display: flex;
+    font-size: 20px;
+    background-color: blueviolet;
+    padding: 10px;
+    border-radius: 15px;
+  }
+
   #app > main {
     padding: 0 1rem;
     padding-top: 1rem;
@@ -100,17 +112,21 @@
 </style>
 <link href="./src/components/product.css" rel="preload" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="./src/components/product.css"></noscript>
+<link href="./src/components/cart.css" rel="preload" as="style" onload="this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="./src/components/cart.css"></noscript>
 <link href="./src/assets/css/product.css" rel="preload" as="style" onload="this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="./src/assets/css/product.css"></noscript>
 <body>
   <section id="app">
     <header>
       <h1><a href="/">Nozama shop 🛍</a></h1>
+      <a class="header-right" href="/cart">Cart 🛒</a>
     </header>
     <main>
 
       <app-home page></app-home>
       <app-product page></app-product>
+      <app-cart page></app-cart>
 
       <div class="skeleton">
         <div class="hero"></div>

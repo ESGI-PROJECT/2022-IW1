@@ -3,8 +3,9 @@ import checkConnectivity from "network-latency";
 
 
 import { getProducts, getProduct } from './api/products';
+import { getCart, setCart } from './api/cart';
 import "./views/app-home";
-import { getRessource, getRessources, setRessource, setRessources } from "./idbHelpers";
+import { getRessource, getRessources, setRessource, setRessources, getLocalCart } from "./idbHelpers";
 
 (async (root) => {
 
@@ -18,10 +19,15 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
   let NETWORK_STATE = true;
 
-  document.addEventListener('connection-changed', ({ detail }) => {
+  document.addEventListener('connection-changed', async ({ detail }) => {
     NETWORK_STATE = detail;
+
     if (NETWORK_STATE) {
       document.documentElement.style.setProperty('--app-bg-color', 'royalblue');
+      const localCart = await getLocalCart();
+      if (!localCart.isSynced) {
+        await setCart({ products: localCart, total: localCart.reduce((prevItem, currItem) => prevItem + currItem.price, 0) });
+      }
     } else {
       document.documentElement.style.setProperty('--app-bg-color', '#717276');
     }
@@ -29,6 +35,7 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
   const AppHome = main.querySelector('app-home');
   const AppProduct = main.querySelector('app-product');
+  const AppCart = main.querySelector('app-cart');
 
   page('*', (ctx, next) => {
     skeleton.removeAttribute('hidden');
@@ -67,6 +74,25 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
     AppProduct.product = storedProduct;
     AppProduct.active = true;
+
+    skeleton.setAttribute('hidden', 'hiddle');
+  });
+
+  page('/cart', async () => {
+    await import('./views/app-cart');
+    
+    let localCart = [];
+    if (NETWORK_STATE) {
+      localCart = await getLocalCart();
+      if (!localCart.isSynced) {
+        await setCart({ products: localCart, total: localCart.reduce((prevItem, currItem) => prevItem + currItem.price, 0) });
+      }
+    } else {
+      localCart = await getLocalCart();
+    }
+
+    AppCart.cart = localCart;
+    AppCart.active = true;
 
     skeleton.setAttribute('hidden', 'hiddle');
   });
