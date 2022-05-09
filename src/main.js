@@ -1,10 +1,10 @@
 import page from "page";
 import checkConnectivity from "network-latency";
 /**get cart part / product */
-import { getRessource, getRessources, setRessource, setRessources, setCartRessources, setProductInCart, deleteProductInCart, getCarts} from './idbHelper';
+import { getRessource, getRessources, setRessource, setRessources, setCartRessources, deleteProductInCart, getCarts} from './idbHelper';
 import { getProducts, getProduct } from "./api/products";
 /**import cart api */
-import {getApiCartProduct, getApiCartsProduct} from "./api/cart";
+import {getApiCartProduct, getApiCarts} from "./api/cart";
 
 
 
@@ -87,13 +87,13 @@ import {getApiCartProduct, getApiCartsProduct} from "./api/cart";
     
     let storedProducts = [];
     if (NETWORK_STATE) {
-      const products = await getApiCartsProduct();
+      const products = await getApiCarts();
       storedProducts = await setCartRessources(products);
     } else {
       storedProducts = await getCarts();
     }
 
-    AppCart.cart = storedProducts;
+    AppCart.storedCart = storedProducts[0];
     AppCart.active = true;
 
     skeleton.setAttribute('hidden', true);

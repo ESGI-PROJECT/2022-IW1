@@ -3,7 +3,6 @@ import { openDB } from "idb";
 const PRODUCT_STORE_NAME = "Products";
 //cart store
 const CART_STORE_NAME = "Cart";
-
 export function initDB() {
   return  openDB("Nozama shop 🛍", 1, {
     upgrade(db) {
@@ -13,44 +12,32 @@ export function initDB() {
       store.createIndex("id", "id");
       store.createIndex("category", "category");
       /**cart store */
-      const cartStore = db.createObjectStore(CART_STORE_NAME, {
-        keyPath: "id"
-      });
-
+      const cartStore = db.createObjectStore(CART_STORE_NAME);
       cartStore.createIndex("id", "id");
-      cartStore.createIndex("id_total", "Total");
+      //cartStore.createIndex("id_total", "Total");
     }
   });
 } 
 
 //set in cart db
-export async function setProductInCart(data = []) {
-  console.log(data)
-  const db = await initDB();
-  await db.add(CART_STORE_NAME, data);
-}
-
 export async function setCartRessources(data = []) {
   const db = await initDB();
   const tx = db.transaction(CART_STORE_NAME, 'readwrite');
-  data.forEach(item => {
-    tx.cartStore.put(item);
-  });
+  tx.store.put(data, 'cart');
   await tx.done;
-  return db.getAllFromIndex(CART_STORE_NAME, 'id');
+  return db.getAll(CART_STORE_NAME);
 }
 
 //get all product
 export async function getCarts() {
   const db = await initDB();
-  return db.getAllFromIndex(CART_STORE_NAME, "id");
+  return db.getAll(CART_STORE_NAME, "cart");
 }
 
-
 //delete in cart db
-export async function deleteProductInCart(id) {
+export async function deleteProductInCart() {
   const db = await initDB();
-  await db.delete(CART_STORE_NAME, id);
+  await db.delete(CART_STORE_NAME, 'cart');
 }
 
 //other 

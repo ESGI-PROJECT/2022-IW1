@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { Base } from '../Base';
-import { setProductInCart } from '../idbHelper';
+import { setApiCart, getApiCarts} from '../api/cart';
 
 export class ProductCard extends Base {
   constructor() {
@@ -23,9 +23,22 @@ export class ProductCard extends Base {
     
   }
 
-  _handleClickGet(){
-    setProductInCart(this.product)
-  }
+  async _handleClickGet() {
+    let cart = {products: [], total: 0};
+    const storedCart = await getApiCartsProduct();
+    console.log(storedCart);
+    if (storedCart.products.length > 0) {
+        storedCart.products.forEach(product => {
+            cart.products.push(product);
+            cart.total += product.price;
+        });
+    }
+    cart.products.push(this.product);
+    cart.total = cart.total + this.product.price;
+
+    setApiCart(cart);
+}
+
 
   render() {
     return html`

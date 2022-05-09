@@ -1,5 +1,5 @@
 /**import */
-import { LitElement, html, css } from 'lit';
+import { html} from 'lit';
 import { Base } from '../Base';
 
 
@@ -32,7 +32,7 @@ export class CartSell extends Base {
     return html`
     <div>
       <div>
-        <button @click="${this._handleClickGet}"deletet</button>
+        <button @click="${this._handleClickGet}"delete</button>
       </div>
 
       <div>
