@@ -1,18 +1,25 @@
-import { LitElement, html, css } from 'lit';
+import { html } from "lit";
 import { Base } from '../Base';
-
 
 export class AppProduct extends Base {
   constructor() {
     super();
     this.product = {};
-    this.loaded = true;
+
+    this.loaded = false;
   }
   static get properties() {
     return {
       product: { type: Object },
-      loaded: { type: Boolean },
+      loaded: { type: Boolean, state: true }
     };
+  }
+
+  firstUpdated() {
+    const img = this.querySelector('img');
+    img.addEventListener('load', () => {
+      this.loaded = true;
+    });
   }
 
   render() {
@@ -20,12 +27,14 @@ export class AppProduct extends Base {
       <section class="product">
         <header>
           <figure>
-            <div class="placeholder ${this.loaded ? 'fade' : '' }" style="background-image: url(http://localhost:9000/image/24/${this.product.image})"></div>
+            <div class="placeholder ${this.loaded ? 'fade' : ''}" style="background-image: url(http://localhost:9000/image/24/${this.product.image})"></div>
             <img
-              alt="${this.product.title}"
-              src="http://localhost:9000/image/620/${this.product.image}"
               loading="lazy"
-              width="1280" height="720">
+              src="http://localhost:9000/image/500/${this.product.image}"
+              alt="${this.product.description}"
+              data-src="http://localhost:9000/image/500/${this.product.image}"
+              width="1280"
+              height="720">
           </figure>
         </header>
         <main>

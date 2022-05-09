@@ -7,18 +7,12 @@ function html(strings, ...values) {
 }
 
 export default {
-  name: 'Card',
   props: {
     id: null,
-    image: '',
-    title: '',
-    description: '',
+    title: "",
+    description: "",
+    image: null
   },
-
-  handleLoad(e) {
-    e.target.parentNode.querySelector('.placeholder').classList.add('fade');
-  },
-
   render() {
     const template = document.createElement('div');
     template.innerHTML = html`
@@ -26,22 +20,16 @@ export default {
         <header>
           <figure>
             <div class="placeholder" style="background-image: url(http://localhost:9000/image/24/${this.props.image})"></div>
-            <img
-              alt="${this.props.title}"
-              src="http://localhost:9000/image/620/${this.props.image}"
-              loading="lazy"
-              width="1280" height="720">
+            <img src="" alt="${this.props.title}" data-src="${this.props.image}">
           </figure>
         </header>
         <main>
           <h1>${this.props.title}</h1>
           <p>${this.props.description}</p>
-          <p>Price : ${this.product.price} $</p>
         </main>
       </section>
     `;
-    const card = template.querySelector('.card');
-    card.querySelector("img").addEventListener('load', this.handleLoad);
-    return card;
+      const card = template.querySelector('.card');
+      return card;
   }
 };
