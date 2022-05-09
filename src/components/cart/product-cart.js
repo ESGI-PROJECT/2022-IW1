@@ -31,7 +31,7 @@ export class ProductCart extends Base {
             store[0].total -= store[0].storage[article].sum;
             store[0].storage.splice(article, 1);
             await setItem(store);
-            console.log(store)
+            location.reload();
         }
     }
 
@@ -44,6 +44,7 @@ export class ProductCart extends Base {
         store[0].total += store[0].storage[article].item.price;
 
         await setItem(store);
+        location.reload();
     }
 
     async _handleClickDecrement() {
@@ -56,6 +57,7 @@ export class ProductCart extends Base {
             store[0].total -= store[0].storage[article].item.price;
 
             await setItem(store);
+            location.reload();
         }
     }
 

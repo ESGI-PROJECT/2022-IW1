@@ -29,10 +29,11 @@ export class ProductCard extends Base {
         const exist = store[0].storage.some(article)
 
         if (exist === true) {
-            return alert("Cet article ce trouve déjà dans votre panier");
+            return alert("Cet article ce trouve déjà dans votre panier 😛");
         } else {
             store[0].storage.push({item: this.product, quantity: 1, sum: this.product.price});
             store[0].total += this.product.price;
+            alert("Félicitation vous avez ajouté un nouvel article dans votre panier 🎉🥳");
             return await setItem(store);
         }
     }
