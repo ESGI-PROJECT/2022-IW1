@@ -1,6 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import { Base } from '../Base';
-import {getInCart, setInCart} from "../idbHelper";
+import {getItems, setItem} from "../idbHelper";
 
 export class AppProduct extends Base {
   constructor() {
@@ -16,9 +16,18 @@ export class AppProduct extends Base {
     };
   }
 
-  _handleClickGet() {
-    setInCart(this.product);
-    console.log(this.product);
+  async _handleClickSet() {
+    const store = await getItems();
+    const article = (item) => item.item.id === this.product.id;
+    const exist = store[0].storage.some(article)
+
+    if (exist === true) {
+      return alert("Cet article ce trouve déjà dans votre panier");
+    } else {
+      store[0].storage.push({item: this.product, quantity: 1, sum: this.product.price});
+      store[0].total += this.product.price;
+      return await setItem(store);
+    }
   }
 
   render() {
@@ -38,7 +47,7 @@ export class AppProduct extends Base {
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
         </main>
-        <button @click="${this._handleClickGet}">Add to cart</button>
+        <button @click="${this._handleClickSet}">Add to cart</button>
       </section>
     `;
   }

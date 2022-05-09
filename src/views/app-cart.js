@@ -16,12 +16,17 @@ export class AppCart extends Base {
     }
 
     render() {
-        return this.products.map(product => html`
+        return html`
+            ${this.products[0].storage.map(product => html`
             <product-cart 
                     .product="${product}"
             ></product-cart>
-        `)
-    }
+        `)}
+            <br>
+            <p>Il y a ${this.products[0].storage.length} article(s) dans votre panier</p>
+            <br>
+            <p>Total : ${this.products[0].total} €</p>
+    `}
 }
 
 customElements.define('app-cart', AppCart);

@@ -1,11 +1,5 @@
 import {LitElement, html, css} from 'lit';
-import {
-    deleteInCart,
-    getInCart,
-    getInCartItem, getTest,
-    setInCart,
-    setInCartItem, setTest
-} from "../../idbHelper";
+import {getItems, setItem} from "../../idbHelper";
 import {Base} from "../../Base";
 
 export class ProductCart extends Base {
@@ -20,7 +14,6 @@ export class ProductCart extends Base {
         return {
             product: {type: Object},
             loaded: {type: Boolean, state: true},
-            count: {type: Number}
         }
     }
 
@@ -30,35 +23,45 @@ export class ProductCart extends Base {
         });
     }
 
-    _handleClickDelete() {
-        deleteInCart(this.product.item.id);
+    async _handleClickDelete() {
+        const store = await getItems();
+        const article = store[0].storage.findIndex(item => item.item.id === this.product.item.id);
+
+        if (article > -1) {
+            store[0].total -= store[0].storage[article].sum;
+            store[0].storage.splice(article, 1);
+            await setItem(store);
+            console.log(store)
+        }
     }
 
     async _handleClickIncrement() {
-        const cart = await getInCartItem(this.product.item.id);
-        cart.quantity = cart.quantity + 1;
-        console.log(cart);
-        await setInCartItem(cart);
+        const store = await getItems();
+        const article = store[0].storage.findIndex(item => item.item.id === this.product.item.id);
 
-        const b = await getTest();
-        b[0].storage.push(cart);
-        console.log(b[0].storage);
-        console.log(b);
-        await setTest(b);
+        store[0].storage[article].quantity = store[0].storage[article].quantity + 1;
+        store[0].storage[article].sum += store[0].storage[article].item.price;
+        store[0].total += store[0].storage[article].item.price;
+
+        await setItem(store);
     }
 
     async _handleClickDecrement() {
-        const cart = await getInCartItem(this.product.item.id);
-        if (cart.quantity > 1) {
-            cart.quantity = cart.quantity - 1;
-            console.log(cart);
-            await setInCartItem(cart);
+        const store = await getItems();
+        const article = store[0].storage.findIndex(item => item.item.id === this.product.item.id);
+
+        if (store[0].storage[article].quantity > 1) {
+            store[0].storage[article].quantity = store[0].storage[article].quantity - 1;
+            store[0].storage[article].sum -= store[0].storage[article].item.price;
+            store[0].total -= store[0].storage[article].item.price;
+
+            await setItem(store);
         }
     }
 
     render() {
         return html`
-            <section>
+            <section style="margin-top: 2%">
                 <header>
                     <figure>
                         <div class="placeholder ${this.loaded ? 'fade' : ''}"
@@ -71,7 +74,8 @@ export class ProductCart extends Base {
                     </figure>
                 </header>
                 <main>
-                    <h1>${this.product.item.title}</h1>
+                    <h4>${this.product.item.title}</h4>
+                    <p>${this.product.sum} €</p>
                 </main>
                 <button @click="${this._handleClickDelete}">Delete</button>
                 <button @click="${this._handleClickDecrement}">-</button>

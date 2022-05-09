@@ -4,8 +4,12 @@ const request = createRequest();
 
 export function postCart(item) {
     return request.post("/cart", item)
-        .then(({ data }) => data)
-        .catch(console.error);
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 }
 
 export function getCart() {
