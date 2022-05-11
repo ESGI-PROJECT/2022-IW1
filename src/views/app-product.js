@@ -1,5 +1,6 @@
 import { html } from "lit";
 import { Base } from '../Base';
+import { setCart, getCartProduct } from '../idbHelpers';
 
 export class AppProduct extends Base {
   constructor() {
@@ -22,6 +23,10 @@ export class AppProduct extends Base {
     });
   }
 
+  add2Cart() {
+    if (getCartProduct(this.product.id).then(product => product === undefined)) {setCart(this.product);}
+  }
+
   render() {
     return html`
       <section class="product">
@@ -40,6 +45,7 @@ export class AppProduct extends Base {
         <main>
           <h1>${this.product.title}</h1>
           <p>${this.product.description}</p>
+          <button @click='${() => this.add2Cart()}'>Ajouter dans le panier</button>
         </main>
       </section>
     `;
