@@ -8,7 +8,7 @@
 </head>
 <style>
   :root {
-    --app-bg-color: royalblue;
+    --app-bg-color: deepskyblue;
   }
   *,*::before, *::after {
     margin: 0;
@@ -23,6 +23,9 @@
   h1 {
     margin: 0;
     padding: 0;
+  }
+  a{
+    text-decoration: none;
   }
   #app > header a {
     text-decoration: none;
@@ -105,12 +108,20 @@
 <body>
   <section id="app">
     <header>
-      <h1><a href="/">Nozama shop 🛍</a></h1>
+      <ul style="display:flex; list-style: none;">
+        <li >
+          <h1><a href="/">Nozama shop 🛍️</a></h1>
+        </li>
+        <li style="text-decoration: none;">
+          <a href="/cart" style="margin-left: 200px; font-size: 32px">🛒</a>
+        </li>
+      </ul>
     </header>
     <main>
 
       <app-home page></app-home>
       <app-product page></app-product>
+      <app-cart page></app-cart>
 
       <div class="skeleton">
         <div class="hero"></div>

@@ -38,20 +38,24 @@
 .card main {
   padding: 0.25rem 0.5rem;
 }
+
 .card main h1 {
   font-weight: 500;
   font-size: 1.2rem;
 }
+
 .card main p {
   padding-top: 0.25rem;
   font-size: 0.75rem;
   color: #6D6D6D;
 }
 
-/**
-  * Persist animation using : animation-fill-mode set to forward 
-  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/animation-fill-mode
-  */
+.add{
+  font-size: 40px;
+  margin: 0 auto;
+  display: flex;
+}
+
 .fade {
   -webkit-animation: fadeout 2s forwards; /* Safari and Chrome */
   -moz-animation: fadeout 2s forwards; /* Firefox */

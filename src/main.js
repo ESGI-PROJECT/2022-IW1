@@ -2,7 +2,7 @@ import page from "page";
 import checkConnectivity from "network-latency";
 
 
-import { getProducts, getProduct } from './api/products';
+import { getProducts, getProduct, getCarts, resetCarts, setCart } from './api/products';
 import "./views/app-home";
 import { getRessource, getRessources, setRessource, setRessources } from "./idbHelpers";
 
@@ -21,7 +21,7 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
   document.addEventListener('connection-changed', ({ detail }) => {
     NETWORK_STATE = detail;
     if (NETWORK_STATE) {
-      document.documentElement.style.setProperty('--app-bg-color', 'royalblue');
+      document.documentElement.style.setProperty('--app-bg-color', 'deepskyblue');
     } else {
       document.documentElement.style.setProperty('--app-bg-color', '#717276');
     }
@@ -29,6 +29,7 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
   const AppHome = main.querySelector('app-home');
   const AppProduct = main.querySelector('app-product');
+  const AppCart = main.querySelector('app-cart');
 
   page('*', (ctx, next) => {
     skeleton.removeAttribute('hidden');
@@ -70,6 +71,26 @@ import { getRessource, getRessources, setRessource, setRessources } from "./idbH
 
     skeleton.setAttribute('hidden', 'hiddle');
   });
+
+  page('/cart', async () => {
+    await import('./views/app-cart');
+
+    let carts = [] ; 
+    if(NETWORK_STATE) {
+      const cart = await getCarts() ; 
+      cart['id'] = 1 ; 
+      cart['category'] = 'cart' ; 
+      carts = await setRessource(cart,'Cart') ;
+    } else {
+      carts = await getRessource(1, 'Cart') ; 
+    }
+
+    AppCart.products = carts ;  
+    AppCart.state = NETWORK_STATE ;
+    AppCart.active = true ; 
+
+    skeleton.setAttribute('hidden', 'hiddle');
+  }) ;
 
   page();
 
